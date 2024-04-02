@@ -2,10 +2,22 @@ let container = document.querySelector("#container")
 let newCanvasButton = document.querySelector("#newCanvas")
 
 newCanvasButton.addEventListener("click", (e)=>{
-    let newDimensions = prompt("enter new dimensions separated with an x:")
+    let newDimensions = prompt("enter new dimensions separated with an x: (max 200x200)")
     newDimensions = newDimensions.split("x");
     container.innerHTML = "";
+    if(newDimensions[0] > 200 || newDimensions[1]> 200){
+        alert("Values > 200, building 16x16.")
+        buildCanvas(16,16);
+        return;
+    }
     buildCanvas(newDimensions[0], newDimensions[1]);
+})
+
+document.querySelector("#reset").addEventListener("click", ()=>{
+    Array.from(document.querySelectorAll(".pixel")).forEach(x=>{
+        x.style.backgroundColor = "#BBB"
+        x.style.opacity = 1;
+    })
 })
 
 function getRandomNumberColor(){
@@ -17,8 +29,16 @@ function addListeners(){
 
     Array.from(allPixels).forEach(e=>{
     e.addEventListener("mouseover", x=>{
-        x.target.style.backgroundColor = `rgb(${getRandomNumberColor()}, ${getRandomNumberColor()}, ${getRandomNumberColor()})`;
-        x.target.style.opacity = String(Number(x.target.style.opacity)-0.1);
+        if(document.querySelector("#randomColors").checked){
+            x.target.style.backgroundColor = `rgb(${getRandomNumberColor()}, ${getRandomNumberColor()}, ${getRandomNumberColor()})`;
+        } else {
+            x.target.style.backgroundColor = `red`;
+
+        }
+
+        if(document.querySelector("#reduceOpacity").checked){
+            x.target.style.opacity = String(Number(x.target.style.opacity)-0.1);
+        }
     })
     })
 }
