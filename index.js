@@ -8,12 +8,17 @@ newCanvasButton.addEventListener("click", (e)=>{
     buildCanvas(newDimensions[0], newDimensions[1]);
 })
 
+function getRandomNumberColor(){
+    return Math.floor(Math.random()*255);
+}
+
 function addListeners(){
     let allPixels = document.querySelectorAll(".pixel");
 
     Array.from(allPixels).forEach(e=>{
     e.addEventListener("mouseover", x=>{
-        x.target.style.backgroundColor = "red";
+        x.target.style.backgroundColor = `rgb(${getRandomNumberColor()}, ${getRandomNumberColor()}, ${getRandomNumberColor()})`;
+        x.target.style.opacity = String(Number(x.target.style.opacity)-0.1);
     })
     })
 }
@@ -26,6 +31,7 @@ function buildCanvas(width, height){
         for(let j=0; j<width; j++){
             let newDiv = document.createElement("div");
             newDiv.classList.add("pixel")
+            newDiv.style.opacity = 1;
             newLine.appendChild(newDiv)
         }
         container.appendChild(newLine)
